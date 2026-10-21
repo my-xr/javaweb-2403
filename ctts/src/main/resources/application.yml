@@ -1,0 +1,42 @@
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.gzu.ctts.controller
+
+# Knife4j 增强配置
+knife4j:
+  enable: true                   # 开启 Knife4j
+  setting:
+    language: zh_cn              # 中文
+    enable-version: true         # 显示版本
+    enable-reload-cache: true    # 支持刷新缓存
+    enable-after-script: true
+    enable-filter-multipart-api-method-type: POST
+    enable-filter-multipart-apis: false
+    enable-request-cache: true
+    enable-host: false
+    enable-host-text: localhost:8080
+    enable-home-custom: false
+    home-custom-path: classpath:markdown/home.md
+    enable-search: false
+    enable-footer: false
+    enable-footer-custom: true
+    footer-custom-content: Apache License 2.0 | Copyright  2024 CTTS
+    enable-dynamic-parameter: false
+    enable-debug: true           # 启用调试
+    enable-open-api: false
+    enable-group: true
+  cors: false
+  production: false              # 生产环境设为 true 关闭文档
+  basic:
+    enable: false                # 是否开启 basic 认证
+    username: admin
+    password: 123456
