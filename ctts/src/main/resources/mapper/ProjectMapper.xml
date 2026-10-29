@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzu.ctts.mapper.ProjectMapper">
+
+    <resultMap id="result" type="com.gzu.ctts.entity.Project">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+        id,title,description,teacher_id,start_date,end_date,status,create_time,update_time
+    </sql>
+    
+    <select id="getByTitle" resultMap="result">
+        SELECT <include refid="baseColumn"></include> FROM training_project WHERE title LIKE CONCAT('%',#{title},'%')
+    </select>
+
+</mapper>
