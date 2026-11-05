@@ -1,5 +1,7 @@
 package com.gzu.ctts.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gzu.ctts.common.Result;
 import com.gzu.ctts.dao.TaskDAO;
 import com.gzu.ctts.dto.TaskDTO;
@@ -54,4 +56,26 @@ public class TaskController {
         taskService.deleteById(id);
         return Result.success("删除成功");
     }
+
+    @GetMapping("/options")
+    public Result<List<Task>> getTasksByOptions(@RequestParam(required = false) Long projectId, @RequestParam(required = false) Integer status, @RequestParam(required = false) String title){
+        return Result.success(taskService.getTasksByOptions(projectId, status, title));
+    }
+
+    @GetMapping("/status")
+    public Result<List<Task>> getTasksByStatusList(@RequestParam List<Integer> statusList){
+        return Result.success(taskService.getTasksByStatusList(statusList));
+    }
+
+    @PostMapping("/getByOptions")
+    public Result<List<Task>> getTasksByOptions(@RequestBody TaskDTO taskDTO){
+        return Result.success(taskService.getByOptions(taskDTO));
+    }
+
+    @GetMapping("/page")
+    public Result<IPage<Task>> getTasksByPage(@RequestParam int pageNum, @RequestParam int pageSize){
+        IPage<Task> page = new Page<>(pageNum, pageSize);
+        return Result.success(taskService.getTasksByPage(page));
+    }
+
 }
