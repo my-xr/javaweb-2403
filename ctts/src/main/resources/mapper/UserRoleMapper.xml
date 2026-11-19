@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzu.ctts.mapper.UserRoleMapper">
+
+    <resultMap id="userRoleMap" type="com.gzu.ctts.mapper.result.UserRoleResult">
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleCode" column="role_code"/>
+    </resultMap>
+
+    <select id="selectUserRoleList" resultMap="userRoleMap">
+        SELECT
+        ur.user_id,
+        ur.role_id,
+        role.role_name,
+        role.role_code
+        FROM
+        sys_user_role ur
+        LEFT JOIN sys_role role ON ur.role_id = role.id
+        WHERE ur.user_id IN
+        <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzu.ctts.mapper.UserMapper">
+
+    <resultMap id="userMap" type="com.gzu.ctts.entity.User">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="real_name" property="realName" />
+        <result column="phone" property="phone" />
+        <result column="email" property="email" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <collection property="roles" ofType="com.gzu.ctts.entity.Role">
+            <id property="id" column="role_id"/>
+            <result property="roleCode" column="role_code"/>
+            <result property="roleName" column="role_name"/>
+        </collection>
+    </resultMap>
+
+    <sql id="baseColumns">
+        id, username, password, real_name, phone, email, status, create_time, update_time
+    </sql>
+
+    <select id="selectUserByIdWithRole" resultMap="userMap">
+        SELECT USER.id,
+        USER.username,
+        USER.`password`,
+        USER.phone,
+        USER.email,
+        ur.role_id,
+        role.role_name,
+        role.role_code
+        FROM
+        sys_user USER
+        LEFT JOIN sys_user_role ur ON USER.id = ur.user_id
+        LEFT JOIN sys_role role ON ur.role_id = role.id
+        WHERE USER.id = #{id}
+    </select>
+
+    <select id="selectUsersWithRole" resultMap="userMap">
+        SELECT USER.id,
+        USER.username,
+        USER.`password`,
+        USER.phone,
+        USER.email,
+        ur.role_id,
+        role.role_name,
+        role.role_code
+        FROM
+        sys_user USER
+        LEFT JOIN sys_user_role ur ON USER.id = ur.user_id
+        LEFT JOIN sys_role role ON ur.role_id = role.id
+    </select>
+
+
+    <select id="selectUsers" resultMap="userMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM
+        sys_user
+    </select>
+</mapper>
